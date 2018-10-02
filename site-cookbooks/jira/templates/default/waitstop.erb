@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -e
+
+host=$1
+port=$2
+secs=600
+
+
+address=$host
+
+echo -n "Waiting for TCP connection to $address:$port..."
+
+for i in `seq $secs`; do
+    nc -z $address $port > /dev/null
+    if [$? -ne 0] ; then
+        echo OK
+        exit 0
+    fi
+
+    echo -n .
+    /bin/sleep 0.1
+
+done
+
+echo FAILED
+exit -1

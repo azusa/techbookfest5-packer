@@ -1,0 +1,66 @@
+{
+  "_comment": "Build with `packer build centos-ami.json`",
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "ap-northeast-1",
+    "source_ami": "{{user `source_ami`}}",
+    "instance_type": "t2.small",
+    "ssh_username": "centos",
+    "ami_name": "jira-7.12.0-{{user `target_node`}} {{timestamp}}"
+  }],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": ".",
+      "destination": "/tmp/"
+    },
+    {
+      "environment_vars": [
+        "SSH_USERNAME={{user `ssh_username`}}",
+        "SSH_PASSWORD={{user `ssh_password`}}",
+        "http_proxy={{user `http_proxy`}}",
+        "https_proxy={{user `https_proxy`}}",
+        "ftp_proxy={{user `ftp_proxy`}}",
+        "rsync_proxy={{user `rsync_proxy`}}",
+        "no_proxy={{user `no_proxy`}}",
+        "TARGET_NODE={{user `target_node`}}"
+      ],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "scripts": [
+        "provisioning-packer.sh"
+      ],
+      "type": "shell",
+      "pause_before": "10s"
+    }
+  ],
+  "variables": {
+    "cpus": "1",
+    "desktop": "false",
+    "disk_size": "65536",
+    "ftp_proxy": "{{env `ftp_proxy`}}",
+    "headless": "",
+    "http_directory": "kickstart/centos7",
+    "http_proxy": "{{env `http_proxy`}}",
+    "https_proxy": "{{env `https_proxy`}}",
+    "install_vagrant_key": "true",
+    "memory": "512",
+    "no_proxy": "{{env `no_proxy`}}",
+    "parallels_guest_os_type": "centos",
+    "rsync_proxy": "{{env `rsync_proxy`}}",
+    "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
+    "ssh_password": "vagrant",
+    "ssh_username": "vagrant",
+    "update": "false",
+    "vagrantfile_template": "",
+    "version": "0.0.99",
+    "virtualbox_guest_os_type": "RedHat_64",
+    "virtualbox_paravirtprovider": "default",
+    "virtualbox_nictype": "virtio",
+    "vm_name": "centos7",
+    "vmware_guest_os_type": "centos-64",
+    "target_node": "{{env `TARGET_NODE`}}",
+    "source_ami": "{{env `SOURCE_AMI`}}"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "production",
+  "chef_environment" : "production", 
+  "run_list": [
+    "role[custom]"
+  ]
+}
+

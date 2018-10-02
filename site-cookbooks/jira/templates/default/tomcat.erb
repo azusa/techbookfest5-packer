@@ -1,0 +1,30 @@
+/opt/atlassian/jira/current/logs/catalina.out {
+  missingok
+  copytruncate
+  daily
+  dateext
+  rotate 400
+  compress
+	delaycompress
+}
+
+
+/var/atlassian/application-data/jira/log/atlassian-jira.log {
+  missingok
+  copytruncate
+  daily
+  dateext
+  rotate 400
+}
+
+
+/var/atlassian/application-data/jira/log/atlassian-jira-security.log {
+  missingok
+  copytruncate
+  daily
+  dateext
+  rotate 400
+}
+
+
+

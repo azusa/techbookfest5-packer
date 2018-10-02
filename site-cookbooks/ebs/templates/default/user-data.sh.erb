@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -x
+
+device_id_data="/dev/xvdb"
+mount_point_data="/mnt/atlassian/jira/data"
+
+parted -l  |grep -A 6 ${device_id_data} |grep xfs
+FORMATED=$?
+
+# ファイルシステムが作成されてなかったら
+## ファイルシステムの作成
+if [ $FORMATED -ne 0 ]; then
+  mkfs -t xfs ${device_id_data}
+fi
+
+## マウントポイントの作成
+echo "${device_id_data} ${mount_point_data} xfs noatime,defaults 0 0" >> /etc/fstab
+
+# マウント
+mount -a
+
+# ディレクトリの作成
+test -f /mnt/atlassian/jira/data/jira-config.properties
+CREATED=$?
+
+if [ $CREATED -ne 0 ]; then
+  mkdir -p ${mount_point_app}
+  mkdir -p ${mount_point_data}
+  chown jira:atlassian ${mount_point_app}
+  chown jira:atlassian ${mount_point_data}
+fi
+
+# 静的ホスト名の設定
+hostnamectl set-hostname --static $1
+
+echo "preserve_hostname: true" >> /etc/cloud/cloud.cfg

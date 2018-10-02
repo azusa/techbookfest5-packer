@@ -1,0 +1,6 @@
+.vagrant
+/cookbooks/
+Gemfile.lock
+*.pem
+vendor
+local-mode-cache

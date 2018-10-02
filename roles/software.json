@@ -1,0 +1,23 @@
+{
+  "name": "software",
+  "chef_type": "role",
+  "json_class": "Chef::Role",
+  "chef_environment": "seminar",
+  "run_list":[
+    "base"
+    , "ebs"
+    , "yumsetup"
+    , "ntpd"
+    ,"jira"
+    , "man"
+    , "custom"
+    , "start-service"
+  ],
+  "default_attributes" : {
+    "jira" : {
+      "type" : "software"
+    }
+  }
+}
+ 
+

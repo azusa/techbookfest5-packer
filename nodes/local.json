@@ -1,0 +1,8 @@
+{
+  "name": "production",
+  "chef_environment" : "local", 
+  "run_list": [
+    "role[software]"
+  ]
+}
+

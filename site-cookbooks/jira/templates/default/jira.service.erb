@@ -1,0 +1,18 @@
+[Unit]
+Description=The JIRA Server
+After=network-online.target remote-fs.target nss-lookup.target
+Wants=network-online.target
+
+[Service]
+Type=forking
+EnvironmentFile=/etc/systemd/system/jira.env
+ExecStart=/opt/atlassian/jira/current/bin/start-jira.sh
+ExecStop=/opt/atlassian/jira/current/bin/stop-jira.sh
+PIDFile=/opt/atlassian/jira/current/work/catalina.pid
+KillMode=none
+
+User=jira
+Group=jira
+
+[Install]
+WantedBy=multi-user.target

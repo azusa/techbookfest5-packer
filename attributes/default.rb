@@ -1,0 +1,2 @@
+default['jira']['type']='software'
+
